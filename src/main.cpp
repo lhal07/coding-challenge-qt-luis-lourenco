@@ -4,6 +4,7 @@
 #include "albumslistmodel.h"
 #include "photoslistmodel.h"
 #include "postslistmodel.h"
+#include "commentslistmodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,6 +20,8 @@ int main(int argc, char *argv[])
     photosModel.registerTypes("Albums");
     PostsListModel postsModel;
     postsModel.registerTypes("Albums");
+    CommentsListModel commentsModel;
+    commentsModel.registerTypes("Albums");
 
     const QUrl url(QStringLiteral("qrc:/src/qml/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
