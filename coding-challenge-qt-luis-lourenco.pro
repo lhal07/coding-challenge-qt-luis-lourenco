@@ -16,7 +16,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         src/albums.cpp \
         src/albumslistmodel.cpp \
-        src/main.cpp
+        src/main.cpp \
+        src/photos.cpp \
+        src/photoslistmodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -33,4 +35,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     src/albums.h \
-    src/albumslistmodel.h
+    src/albumslistmodel.h \
+    src/photos.h \
+    src/photoslistmodel.h
