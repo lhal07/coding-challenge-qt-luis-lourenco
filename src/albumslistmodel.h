@@ -8,7 +8,6 @@
 #include <QStringList>
 #include "albums.h"
 
-class Abums;
 
 class AlbumsListModel : public QAbstractListModel
 {

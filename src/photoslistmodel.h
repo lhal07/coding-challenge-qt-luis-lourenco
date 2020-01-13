@@ -8,7 +8,6 @@
 #include <QStringList>
 #include "photos.h"
 
-class Abums;
 
 class PhotosListModel : public QAbstractListModel
 {

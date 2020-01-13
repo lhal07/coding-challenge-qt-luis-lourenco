@@ -8,7 +8,6 @@
 #include <QStringList>
 #include "posts.h"
 
-class Posts;
 
 class PostsListModel : public QAbstractListModel
 {
