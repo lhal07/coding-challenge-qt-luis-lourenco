@@ -20,7 +20,9 @@ SOURCES += \
         src/photos.cpp \
         src/photoslistmodel.cpp \
         src/posts.cpp \
-        src/postslistmodel.cpp
+        src/postslistmodel.cpp \
+        src/comments.cpp \
+        src/commentslistmodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -41,4 +43,6 @@ HEADERS += \
     src/photos.h \
     src/photoslistmodel.h \
     src/posts.h \
-    src/postslistmodel.h
+    src/postslistmodel.h \
+    src/comments.h \
+    src/commentslistmodel.h
