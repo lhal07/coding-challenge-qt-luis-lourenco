@@ -12,16 +12,19 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
+
     QQmlApplicationEngine engine;
 
     AlbumsListModel albumsModel;
-    albumsModel.registerTypes("Albums");
+    albumsModel.registerTypes("Albums.type");
     PhotosListModel photosModel;
-    photosModel.registerTypes("Albums");
+    photosModel.registerTypes("Albums.type");
     PostsListModel postsModel;
-    postsModel.registerTypes("Albums");
+    postsModel.registerTypes("Albums.type");
     CommentsListModel commentsModel;
-    commentsModel.registerTypes("Albums");
+    commentsModel.registerTypes("Albums.type");
+    UsersListModel usersModel;
+    usersModel.registerTypes("Albums.type");
 
     const QUrl url(QStringLiteral("qrc:/src/qml/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
@@ -30,6 +33,7 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
     engine.load(url);
+
 
     return app.exec();
 }
