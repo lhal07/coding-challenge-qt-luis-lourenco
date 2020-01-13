@@ -18,7 +18,9 @@ SOURCES += \
         src/albumslistmodel.cpp \
         src/main.cpp \
         src/photos.cpp \
-        src/photoslistmodel.cpp
+        src/photoslistmodel.cpp \
+        src/posts.cpp \
+        src/postslistmodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -37,4 +39,6 @@ HEADERS += \
     src/albums.h \
     src/albumslistmodel.h \
     src/photos.h \
-    src/photoslistmodel.h
+    src/photoslistmodel.h \
+    src/posts.h \
+    src/postslistmodel.h
