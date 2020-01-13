@@ -36,9 +36,9 @@ QVariant Albums::userId(int index) {
 }
 
 QVariant Albums::id(int index) {
-    return QVariant(m_albums.at(index)["userId"]);
+    return QVariant(m_albums.at(index)["id"]);
 }
 
 QVariant Albums::title(int index) {
-    return QVariant(m_albums.at(index)["userId"]);
+    return QVariant(m_albums.at(index)["title"]);
 }
