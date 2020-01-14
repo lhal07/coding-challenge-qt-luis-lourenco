@@ -37,7 +37,7 @@ QList<QVariantMap> Comments::items() {
     return m_comments;
 }
 
-QVariant Comments::commentId(int index) {
+QVariant Comments::postId(int index) {
     return QVariant(m_comments.at(index)["postId"]);
 }
 

@@ -23,7 +23,7 @@ QVariant PostsListModel::data(const QModelIndex &index, int role) const noexcept
     if (!index.isValid() || m_posts == nullptr)
         return QVariant();
 
-    QVariantMap post = m_albums->items().at(index.row());
+    QVariantMap post = m_posts->items().at(index.row());
     switch(role) {
     case UserIdRole:
         return QVariant(post["userId"]);

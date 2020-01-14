@@ -23,9 +23,9 @@ QVariant CommentsListModel::data(const QModelIndex &index, int role) const noexc
     if (!index.isValid() || m_comments == nullptr)
         return QVariant();
 
-    QVariantMap comment = m_albums->items().at(index.row());
+    QVariantMap comment = m_comments->items().at(index.row());
     switch(role) {
-    case UserIdRole:
+    case PostIdRole:
         return QVariant(comment["postId"]);
     case IdRole:
         return QVariant(comment["id"]);

@@ -1,6 +1,6 @@
 #include "userslistmodel.h"
 
-UsersListModel::CommentsListModel(QAbstractListModel *parent) :
+UsersListModel::UsersListModel(QAbstractListModel *parent) :
     QAbstractListModel(parent)
 {
     m_users = new(Users);
@@ -14,7 +14,7 @@ QQmlListProperty<QAbstractListModel> UsersListModel::content()
 
 void UsersListModel::registerTypes(const char *uri)
 {
-    qmlRegisterType<UsersListModel>(uri, 1, 0, "CommentsListModel");
+    qmlRegisterType<UsersListModel>(uri, 1, 0, "UsersListModel");
 }
 
 
@@ -23,7 +23,7 @@ QVariant UsersListModel::data(const QModelIndex &index, int role) const noexcept
     if (!index.isValid() || m_users == nullptr)
         return QVariant();
 
-    QVariantMap user = m_albums->items().at(index.row());
+    QVariantMap user = m_users->items().at(index.row());
     switch(role) {
     case IdRole:
         return QVariant(user["id"]);

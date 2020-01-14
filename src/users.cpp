@@ -29,7 +29,7 @@ Users::Users(QObject *parent) :
     data3["name"] = "Clementine Bauch";
     data3["username"] = "Samantha";
     data3["email"] = "Nathan@yesenia.net";
-    data3["address"] = "{\"street\": \"Douglas Extension\", \"suite\": \"Suite 847\", \"city\": \"McKenziehaven\", "\zipcode\": \"59590-4157\", \"geo\": { \"lat\": \"-68.6102\", \"lng\": \"-47.0653\" } }";
+    data3["address"] = "{\"street\": \"Douglas Extension\", \"suite\": \"Suite 847\", \"city\": \"McKenziehaven\", \"zipcode\": \"59590-4157\", \"geo\": { \"lat\": \"-68.6102\", \"lng\": \"-47.0653\" } }";
     data3["phone"] = "1-463-123-4447";
     data3["website"] = "ramiro.info";
     data3["company"] = "{\"name\": \"Romaguera-Jacobson\", \"catchPhrase\": \"Face to face bifurcated interface\", \"bs\": \"e-enable strategic applications\" }";

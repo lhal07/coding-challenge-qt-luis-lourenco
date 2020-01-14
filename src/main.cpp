@@ -5,6 +5,7 @@
 #include "photoslistmodel.h"
 #include "postslistmodel.h"
 #include "commentslistmodel.h"
+#include "userslistmodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -26,7 +27,7 @@ int main(int argc, char *argv[])
     UsersListModel usersModel;
     usersModel.registerTypes("Albums.type");
 
-    const QUrl url(QStringLiteral("qrc:/src/qml/main.qml"));
+    const QUrl url(QStringLiteral("qrc:qml/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)
