@@ -1,5 +1,4 @@
 import QtQuick 2.0
-import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
 import Albums 1.0
 
@@ -20,13 +19,8 @@ ColumnLayout {
     UsersListModel {
         id: usersModel
     }
-
-    ListModel {
-        id: infoListModel
-        ListElement { field : "Usuários"; total : "10" }
-        ListElement { field : "Fotos"; total : "5000"}
-        ListElement { field : "Comentários"; total : "500" }
-        ListElement { field : "Posts"; total : "100" }
+    InfoDataModel {
+        id: infoDataModel
     }
 
     Rectangle {
@@ -122,7 +116,7 @@ ColumnLayout {
             anchors.rightMargin: 25
             width: parent.width
             height: 100
-            model: infoListModel
+            model: infoDataModel
             cellWidth: 125; cellHeight: 80
             delegate: infoDelegate
         }
@@ -142,8 +136,8 @@ ColumnLayout {
 
                         Column {
                             anchors.fill: parent
-                            Text { id: infoField; text: field; font.pixelSize: 14; color: "dimgrey"; anchors.horizontalCenter: parent.horizontalCenter }
-                            Text { id: infoTotal; text: total; font.pixelSize: 45; color: "dimgrey"; anchors.horizontalCenter: parent.horizontalCenter }
+                            Text { id: infoField; text: name; font.pixelSize: 14; color: "dimgrey"; anchors.horizontalCenter: parent.horizontalCenter }
+                            Text { id: infoTotal; text: count; font.pixelSize: 45; color: "dimgrey"; anchors.horizontalCenter: parent.horizontalCenter }
                         }
                     }
                 }

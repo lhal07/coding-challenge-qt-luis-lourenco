@@ -24,7 +24,8 @@ SOURCES += \
         src/comments.cpp \
         src/commentslistmodel.cpp \
         src/users.cpp \
-        src/userslistmodel.cpp
+        src/userslistmodel.cpp \
+        src/infodatamodel.cpp
 
 RESOURCES += \
         src/qml.qrc
@@ -51,4 +52,5 @@ HEADERS += \
     src/comments.h \
     src/commentslistmodel.h \
     src/users.h \
-    src/userslistmodel.h
+    src/userslistmodel.h \
+    src/infodatamodel.h

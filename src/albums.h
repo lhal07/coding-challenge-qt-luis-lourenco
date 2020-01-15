@@ -16,6 +16,7 @@ public:
     QVariant userId(int);
     QVariant id(int);
     QVariant title(int);
+    int count();
 
 signals:
     void dataChanged();

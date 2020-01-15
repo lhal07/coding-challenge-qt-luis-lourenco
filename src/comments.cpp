@@ -56,3 +56,7 @@ QVariant Comments::email(int index) {
 QVariant Comments::body(int index) {
     return QVariant(m_comments.at(index)["body"]);
 }
+
+int Comments::count() {
+    return m_comments.count();
+}

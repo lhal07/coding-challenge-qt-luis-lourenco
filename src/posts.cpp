@@ -49,3 +49,7 @@ QVariant Posts::title(int index) {
 QVariant Posts::body(int index) {
     return QVariant(m_posts.at(index)["body"]);
 }
+
+int Posts::count() {
+    return m_posts.count();
+}

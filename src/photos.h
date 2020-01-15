@@ -18,6 +18,7 @@ public:
     QVariant title(int);
     QVariant url(int);
     QVariant thumbnailUrl(int);
+    int count();
 
 signals:
     void dataChanged();
