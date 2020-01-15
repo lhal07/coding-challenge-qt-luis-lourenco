@@ -1,6 +1,6 @@
 <RCC>
-    <qresource prefix="/"/>
-    <qresource prefix="/qml">
-        <file alias="main.qml">qml/main.qml</file>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>AlbumManager.qml</file>
     </qresource>
 </RCC>
