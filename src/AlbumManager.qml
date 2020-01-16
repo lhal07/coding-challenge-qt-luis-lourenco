@@ -4,24 +4,9 @@ import Albums 1.0
 
 ColumnLayout {
 
-    AlbumsListModel {
-        id: albumsModel
-    }
-    PhotosListModel {
-        id: photosModel
-    }
-    PostsListModel {
-        id: postsModel
-    }
-    CommentsListModel {
-        id: commentsModel
-    }
-    UsersListModel {
-        id: usersModel
-    }
-    InfoDataModel {
-        id: infoDataModel
-    }
+    AlbumsListModel { id: albumsModel }
+    PhotosListModel { id: photosModel }
+    InfoDataModel { id: infoDataModel }
 
     Rectangle {
         Layout.fillWidth: true
@@ -40,7 +25,7 @@ ColumnLayout {
             font.pointSize: 24
         }
 
-        GridView {
+        ListView {
             id: albumsGrid
             anchors.left: parent.left
             anchors.leftMargin: 25
@@ -49,11 +34,11 @@ ColumnLayout {
             anchors.right: parent.right
             anchors.rightMargin: 25
             width: parent.width
+            orientation: ListView.Horizontal
             height: 200
             model: albumsModel
-            cellWidth: 170; cellHeight: 200
             focus: true
-            highlight: Rectangle { width: albumsGrid.cellWidth; height: albumsGrid.cellHeight; color: "lightsteelblue"; radius: 5}
+            highlight: Rectangle { width: 170; height: 200; color: "lightsteelblue"; radius: 5}
             delegate: albumsDelegate
         }
 
@@ -62,7 +47,7 @@ ColumnLayout {
                 id: albumsDelegate
 
                 Item {
-                    width: albumsGrid.cellWidth; height: albumsGrid.cellHeight
+                    width: 170; height: 200
 
                     Rectangle {
                         id: photoImage
@@ -106,7 +91,7 @@ ColumnLayout {
             }
         }
 
-        GridView {
+        ListView {
             id: infoGrid
             anchors.left: parent.left
             anchors.leftMargin: 25
@@ -116,9 +101,10 @@ ColumnLayout {
             anchors.rightMargin: 25
             width: parent.width
             height: 100
+            orientation: ListView.Horizontal
             model: infoDataModel
-            cellWidth: 125; cellHeight: 80
             delegate: infoDelegate
+            focus: false
         }
 
         Rectangle {
@@ -126,7 +112,7 @@ ColumnLayout {
                 id: infoDelegate
 
                 Item {
-                    width: infoGrid.cellWidth; height: infoGrid.cellHeight
+                    width: 125; height: 80
                     Rectangle {
                         color: "whitesmoke"
                         anchors.fill: parent
