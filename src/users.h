@@ -21,6 +21,7 @@ public:
     QVariant phone(int);
     QVariant website(int);
     QVariant company(int);
+    int count();
 
 signals:
     void dataChanged();

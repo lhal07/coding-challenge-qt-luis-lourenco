@@ -42,3 +42,7 @@ QVariant Albums::id(int index) {
 QVariant Albums::title(int index) {
     return QVariant(m_albums.at(index)["title"]);
 }
+
+int Albums::count() {
+    return m_albums.count();
+}

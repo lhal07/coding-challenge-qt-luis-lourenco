@@ -77,3 +77,7 @@ QVariant Users::website(int index) {
 QVariant Users::company(int index) {
     return QVariant(m_users.at(index)["company"]);
 }
+
+int Users::count() {
+    return m_users.count();
+}

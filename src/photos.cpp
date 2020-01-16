@@ -56,3 +56,7 @@ QVariant Photos::url(int index) {
 QVariant Photos::thumbnailUrl(int index) {
     return QVariant(m_photos.at(index)["thumbnailUrl"]);
 }
+
+int Photos::count() {
+    return m_photos.count();
+}

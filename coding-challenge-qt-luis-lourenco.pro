@@ -24,13 +24,15 @@ SOURCES += \
         src/comments.cpp \
         src/commentslistmodel.cpp \
         src/users.cpp \
-        src/userslistmodel.cpp
+        src/userslistmodel.cpp \
+        src/infodatamodel.cpp
 
 RESOURCES += \
         src/qml.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
+QML_IMPORT_PATH +=\
+        src/
 
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 QML_DESIGNER_IMPORT_PATH =
@@ -50,4 +52,5 @@ HEADERS += \
     src/comments.h \
     src/commentslistmodel.h \
     src/users.h \
-    src/userslistmodel.h
+    src/userslistmodel.h \
+    src/infodatamodel.h

@@ -18,6 +18,7 @@ public:
     QVariant name(int);
     QVariant email(int);
     QVariant body(int);
+    int count();
 
 signals:
     void dataChanged();
