@@ -5,6 +5,10 @@
 #include <QVariant>
 #include <QVariantMap>
 #include <QList>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include "requestmanager.h"
 
 class Comments : public QObject
 {
@@ -19,12 +23,17 @@ public:
     QVariant email(int);
     QVariant body(int);
     int count();
+    void fetchData();
+
+public slots:
+    void updateData(QString);
 
 signals:
     void dataChanged();
 
 private:
     QList<QVariantMap> m_comments;
+    Request m_request;
 
 };
 

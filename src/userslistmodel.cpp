@@ -4,8 +4,16 @@ UsersListModel::UsersListModel(QAbstractListModel *parent) :
     QAbstractListModel(parent)
 {
     m_users = new(Users);
+    QObject::connect(m_users, SIGNAL(dataChanged()), this, SLOT(updateData()));
 }
 
+void UsersListModel::updateData()
+{
+    beginResetModel();
+    m_usersMap.clear();
+    m_usersMap = m_users->items();
+    endResetModel();
+}
 
 QQmlListProperty<QAbstractListModel> UsersListModel::content()
 {
@@ -23,7 +31,7 @@ QVariant UsersListModel::data(const QModelIndex &index, int role) const noexcept
     if (!index.isValid() || m_users == nullptr)
         return QVariant();
 
-    QVariantMap user = m_users->items().at(index.row());
+    QVariantMap user = m_usersMap.at(index.row());
     switch(role) {
     case IdRole:
         return QVariant(user["id"]);
@@ -49,5 +57,5 @@ QVariant UsersListModel::data(const QModelIndex &index, int role) const noexcept
 int UsersListModel::rowCount(const QModelIndex &index) const
 {
     Q_UNUSED(index);
-    return m_users->items().count();
+    return m_usersMap.count();
 }

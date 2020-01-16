@@ -38,11 +38,15 @@ public:
         return roles;
     }
 
+public slots:
+    void updateData();
+
 signals:
   void countChanged(int count);
 
 private:
     Posts *m_posts;
+    QList<QVariantMap> m_postsMap;
 };
 
 #endif // POSTSLISTMODEL_H

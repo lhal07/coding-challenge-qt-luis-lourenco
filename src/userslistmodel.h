@@ -46,11 +46,15 @@ public:
         return roles;
     }
 
+public slots:
+    void updateData();
+
 signals:
   void countChanged(int count);
 
 private:
     Users *m_users;
+    QList<QVariantMap> m_usersMap;
 };
 
 #endif // USERSLISTMODEL_H

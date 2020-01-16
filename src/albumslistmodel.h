@@ -36,11 +36,15 @@ public:
         return roles;
     }
 
+public slots:
+    void updateData();
+
 signals:
   void countChanged(int count);
 
 private:
     Albums *m_albums;
+    QList<QVariantMap> m_albumsMap;
 };
 
 #endif // ALBUMSLISTMODEL_H

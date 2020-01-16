@@ -5,6 +5,10 @@
 #include <QVariant>
 #include <QVariantMap>
 #include <QList>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include "requestmanager.h"
 
 class Posts : public QObject
 {
@@ -18,12 +22,17 @@ public:
     QVariant title(int);
     QVariant body(int);
     int count();
+    void fetchData();
+
+public slots:
+    void updateData(QString);
 
 signals:
     void dataChanged();
 
 private:
     QList<QVariantMap> m_posts;
+    Request m_request;
 
 };
 

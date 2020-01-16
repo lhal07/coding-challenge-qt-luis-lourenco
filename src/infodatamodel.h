@@ -38,6 +38,9 @@ public:
         return roles;
     }
 
+public slots:
+    void updateData();
+
 signals:
   void countChanged(int count);
 

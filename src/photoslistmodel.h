@@ -40,11 +40,15 @@ public:
         return roles;
     }
 
+public slots:
+    void updateData();
+
 signals:
   void countChanged(int count);
 
 private:
     Photos *m_photos;
+    QList<QVariantMap> m_photosMap;
 };
 
 #endif // PHOTOSLISTMODEL_H
