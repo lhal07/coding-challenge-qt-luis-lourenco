@@ -4,8 +4,16 @@ PhotosListModel::PhotosListModel(QAbstractListModel *parent) :
     QAbstractListModel(parent)
 {
     m_photos = new(Photos);
+    QObject::connect(m_photos, SIGNAL(dataChanged()), this, SLOT(updateData()));
 }
 
+void PhotosListModel::updateData()
+{
+    beginResetModel();
+    m_photosMap.clear();
+    m_photosMap = m_photos->items();
+    endResetModel();
+}
 
 QQmlListProperty<QAbstractListModel> PhotosListModel::content()
 {
@@ -23,7 +31,7 @@ QVariant PhotosListModel::data(const QModelIndex &index, int role) const noexcep
     if (!index.isValid() || m_photos == nullptr)
         return QVariant();
 
-    QVariantMap photo = m_photos->items().at(index.row());
+    QVariantMap photo = m_photosMap.at(index.row());
     switch(role) {
     case AlbumIdRole:
         return QVariant(photo["albumId"]);
@@ -43,5 +51,6 @@ QVariant PhotosListModel::data(const QModelIndex &index, int role) const noexcep
 int PhotosListModel::rowCount(const QModelIndex &index) const
 {
     Q_UNUSED(index);
-    return m_photos->items().count();
+    return m_photosMap.count();
 }
+

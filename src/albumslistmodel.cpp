@@ -4,8 +4,16 @@ AlbumsListModel::AlbumsListModel(QAbstractListModel *parent) :
     QAbstractListModel(parent)
 {
     m_albums = new(Albums);
+    QObject::connect(m_albums, SIGNAL(dataChanged()), this, SLOT(updateData()));
 }
 
+void AlbumsListModel::updateData()
+{
+    beginResetModel();
+    m_albumsMap.clear();
+    m_albumsMap = m_albums->items();
+    endResetModel();
+}
 
 QQmlListProperty<QAbstractListModel> AlbumsListModel::content()
 {
@@ -23,7 +31,7 @@ QVariant AlbumsListModel::data(const QModelIndex &index, int role) const noexcep
     if (!index.isValid() || m_albums == nullptr)
         return QVariant();
 
-    QVariantMap album = m_albums->items().at(index.row());
+    QVariantMap album = m_albumsMap.at(index.row());
     switch(role) {
     case UserIdRole:
         return QVariant(album["userId"]);
@@ -39,5 +47,5 @@ QVariant AlbumsListModel::data(const QModelIndex &index, int role) const noexcep
 int AlbumsListModel::rowCount(const QModelIndex &index) const
 {
     Q_UNUSED(index);
-    return m_albums->items().count();
+    return m_albumsMap.count();
 }

@@ -3,33 +3,36 @@
 Posts::Posts(QObject *parent) :
     QObject(parent)
 {
-    /* Example Data while fetch is not implemented */
-    QVariantMap data1;
-    data1["userId"] = 1;
-    data1["id"] = 1;
-    data1["title"] = "sunt aut facere repellat provident occaecati excepturi optio reprehenderit";
-    data1["body"] = "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto";
-
-    QVariantMap data2;
-    data2["userId"] = 1;
-    data2["id"] = 2;
-    data2["title"] = "qui est esse";
-    data2["body"] = "est rerum tempore vitae\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla";
-
-    QVariantMap data3;
-    data3["userId"] = 1;
-    data3["id"] = 3;
-    data3["title"] = "ea molestias quasi exercitationem repellat qui ipsa sit aut";
-    data3["body"] = "et iusto sed quo iure\nvoluptatem occaecati omnis eligendi aut ad\nvoluptatem doloribus vel accusantium quis pariatur\nmolestiae porro eius odio et labore et velit aut";
-
-    m_posts.clear();
-    m_posts.append(data1);
-    m_posts.append(data2);
-    m_posts.append(data3);
-
-    emit dataChanged();
+    QObject::connect(&m_request, SIGNAL(replyFinished(QString)),
+                     this, SLOT(updateData(QString)));
+    fetchData();
 }
 
+void Posts::fetchData()
+{
+    m_request.sendRequest("https://jsonplaceholder.typicode.com/posts");
+}
+
+void Posts::updateData(QString newData)
+{
+    QJsonDocument doc = QJsonDocument::fromJson(newData.toUtf8());
+
+    if(!doc.isNull()) {
+        if(doc.isArray()) {
+            QJsonArray jsonArray = doc.array();
+            foreach (const QJsonValue & value, jsonArray) {
+                QJsonObject obj = value.toObject();
+                m_posts.append(obj.toVariantMap());
+            }
+            emit dataChanged();
+        }
+        else if(doc.isObject()) {
+            QJsonObject obj = doc.object();
+            m_posts.append(obj.toVariantMap());
+            emit dataChanged();
+        }
+    }
+}
 QList<QVariantMap> Posts::items() {
     return m_posts;
 }

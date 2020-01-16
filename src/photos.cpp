@@ -3,34 +3,35 @@
 Photos::Photos(QObject *parent) :
     QObject(parent)
 {
-    /* Example Data while fetch is not implemented */
-    QVariantMap data1;
-    data1["albumId"] = 1;
-    data1["id"] = 1;
-    data1["title"] = "accusamus beatae ad facilis cum similique qui sunt";
-    data1["url"] = "https://via.placeholder.com/600/92c952";
-    data1["thumbnailUrl"] = "https://via.placeholder.com/150/92c952";
+    QObject::connect(&m_request, SIGNAL(replyFinished(QString)),
+                     this, SLOT(updateData(QString)));
+    fetchData();
+}
 
-    QVariantMap data2;
-    data2["albumId"] = 1;
-    data2["id"] = 2;
-    data2["title"] = "reprehenderit est deserunt velit ipsam";
-    data2["url"] = "https://via.placeholder.com/600/771796";
-    data2["thumbnailUrl"] = "https://via.placeholder.com/150/771796";
+void Photos::fetchData()
+{
+    m_request.sendRequest("https://jsonplaceholder.typicode.com/photos");
+}
 
-    QVariantMap data3;
-    data3["albumId"] = 1;
-    data3["id"] = 3;
-    data3["title"] = "officia porro iure quia iusto qui ipsa ut modi";
-    data3["url"] = "https://via.placeholder.com/600/24f355";
-    data3["thumbnailUrl"] = "https://via.placeholder.com/150/24f355";
+void Photos::updateData(QString newData)
+{
+    QJsonDocument doc = QJsonDocument::fromJson(newData.toUtf8());
 
-    m_photos.clear();
-    m_photos.append(data1);
-    m_photos.append(data2);
-    m_photos.append(data3);
-
-    emit dataChanged();
+    if(!doc.isNull()) {
+        if(doc.isArray()) {
+            QJsonArray jsonArray = doc.array();
+            foreach (const QJsonValue & value, jsonArray) {
+                QJsonObject obj = value.toObject();
+                m_photos.append(obj.toVariantMap());
+            }
+            emit dataChanged();
+        }
+        else if(doc.isObject()) {
+            QJsonObject obj = doc.object();
+            m_photos.append(obj.toVariantMap());
+            emit dataChanged();
+        }
+    }
 }
 
 QList<QVariantMap> Photos::items() {

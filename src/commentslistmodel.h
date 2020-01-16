@@ -40,11 +40,16 @@ public:
         return roles;
     }
 
+public slots:
+    void updateData();
+
 signals:
   void countChanged(int count);
 
 private:
     Comments *m_comments;
+    QList<QVariantMap> m_commentsMap;
+
 };
 
 #endif // COMMENTSLISTMODEL_H

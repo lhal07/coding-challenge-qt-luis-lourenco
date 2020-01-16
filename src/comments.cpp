@@ -3,36 +3,36 @@
 Comments::Comments(QObject *parent) :
     QObject(parent)
 {
-    /* Example Data while fetch is not implemented */
-    QVariantMap data1;
-    data1["postId"] = 1;
-    data1["id"] = 1;
-    data1["name"] ="id labore ex et quam laborum";
-    data1["email"] = "Eliseo@gardner.biz";
-    data1["body"] = "laudantium enim quasi es…am sapiente accusantium";
-
-    QVariantMap data2;
-    data2["postId"] = 1;
-    data2["id"] = 2;
-    data2["name"] = "quo vero reiciendis velit similique earum";
-    data2["email"] = "Jayne_Kuhic@sydney.com";
-    data2["body"] = "est natus enim nihil est…oluptatem reiciendis et";
-
-    QVariantMap data3;
-    data3["postId"] = 1;
-    data3["id"] = 3;
-    data3["name"] = "odio adipisci rerum aut animi";
-    data3["email"] = "Nikita@garfield.biz";
-    data3["body"] = "quia molestiae reprehend…epturi deleniti ratione";
-
-    m_comments.clear();
-    m_comments.append(data1);
-    m_comments.append(data2);
-    m_comments.append(data3);
-
-    emit dataChanged();
+    QObject::connect(&m_request, SIGNAL(replyFinished(QString)),
+                     this, SLOT(updateData(QString)));
+    fetchData();
 }
 
+void Comments::fetchData()
+{
+    m_request.sendRequest("https://jsonplaceholder.typicode.com/comments");
+}
+
+void Comments::updateData(QString newData)
+{
+    QJsonDocument doc = QJsonDocument::fromJson(newData.toUtf8());
+
+    if(!doc.isNull()) {
+        if(doc.isArray()) {
+            QJsonArray jsonArray = doc.array();
+            foreach (const QJsonValue & value, jsonArray) {
+                QJsonObject obj = value.toObject();
+                m_comments.append(obj.toVariantMap());
+            }
+            emit dataChanged();
+        }
+        else if(doc.isObject()) {
+            QJsonObject obj = doc.object();
+            m_comments.append(obj.toVariantMap());
+            emit dataChanged();
+        }
+    }
+}
 QList<QVariantMap> Comments::items() {
     return m_comments;
 }

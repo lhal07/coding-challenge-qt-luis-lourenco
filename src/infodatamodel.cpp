@@ -8,6 +8,14 @@ InfoDataModel::InfoDataModel(QAbstractListModel *parent) :
     m_posts = new(Posts);
     m_users = new(Users);
 
+    QObject::connect(m_users, SIGNAL(dataChanged()), this, SLOT(updateData()));
+    QObject::connect(m_photos, SIGNAL(dataChanged()), this, SLOT(updateData()));
+    QObject::connect(m_comments, SIGNAL(dataChanged()), this, SLOT(updateData()));
+    QObject::connect(m_posts, SIGNAL(dataChanged()), this, SLOT(updateData()));
+}
+
+void InfoDataModel::updateData()
+{
     QVariantMap usersMap;
     usersMap["name"] = QVariant("Usuários");
     usersMap["count"] = QVariant(m_users->count());
@@ -21,12 +29,14 @@ InfoDataModel::InfoDataModel(QAbstractListModel *parent) :
     postsMap["name"] = QVariant("Fotos");
     postsMap["count"] = QVariant(m_posts->count());
 
+    beginResetModel();
+    m_infoMap.clear();
     m_infoMap.append(usersMap);
     m_infoMap.append(photosMap);
     m_infoMap.append(commentsMap);
     m_infoMap.append(postsMap);
+    endResetModel();
 }
-
 
 QQmlListProperty<QAbstractListModel> InfoDataModel::content()
 {

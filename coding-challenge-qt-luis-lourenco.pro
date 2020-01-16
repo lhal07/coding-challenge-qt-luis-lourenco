@@ -23,6 +23,7 @@ SOURCES += \
         src/postslistmodel.cpp \
         src/comments.cpp \
         src/commentslistmodel.cpp \
+        src/requestmanager.cpp \
         src/users.cpp \
         src/userslistmodel.cpp \
         src/infodatamodel.cpp
@@ -51,6 +52,7 @@ HEADERS += \
     src/postslistmodel.h \
     src/comments.h \
     src/commentslistmodel.h \
+    src/requestmanager.h \
     src/users.h \
     src/userslistmodel.h \
     src/infodatamodel.h
