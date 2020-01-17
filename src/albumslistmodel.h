@@ -7,6 +7,7 @@
 #include <QAbstractListModel>
 #include <QStringList>
 #include "albums.h"
+#include "photos.h"
 
 
 class AlbumsListModel : public QAbstractListModel
@@ -18,7 +19,8 @@ public:
     enum AlbumItemRole {
         UserIdRole  = Qt::UserRole,
         IdRole,
-        TitleRole
+        TitleRole,
+        ImageRole
     };
 
     explicit AlbumsListModel(QAbstractListModel *parent = nullptr);
@@ -33,6 +35,7 @@ public:
         roles[UserIdRole] = "userId";
         roles[IdRole] = "id";
         roles[TitleRole] = "title";
+        roles[ImageRole] = "image";
         return roles;
     }
 
@@ -44,6 +47,7 @@ signals:
 
 private:
     Albums *m_albums;
+    Photos *m_photos;
     QList<QVariantMap> m_albumsMap;
 };
 

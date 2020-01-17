@@ -2,5 +2,8 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>AlbumManager.qml</file>
+        <file>AlbumSelector.qml</file>
+        <file>InfoList.qml</file>
+        <file>PhotoSelection.qml</file>
     </qresource>
 </RCC>

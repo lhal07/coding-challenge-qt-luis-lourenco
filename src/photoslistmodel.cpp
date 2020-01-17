@@ -3,6 +3,7 @@
 PhotosListModel::PhotosListModel(QAbstractListModel *parent) :
     QAbstractListModel(parent)
 {
+    m_albumId = -1;
     m_photos = new(Photos);
     QObject::connect(m_photos, SIGNAL(dataChanged()), this, SLOT(updateData()));
 }
@@ -11,7 +12,7 @@ void PhotosListModel::updateData()
 {
     beginResetModel();
     m_photosMap.clear();
-    m_photosMap = m_photos->items();
+    m_photosMap = getAlbum();
     endResetModel();
 }
 
@@ -46,6 +47,28 @@ QVariant PhotosListModel::data(const QModelIndex &index, int role) const noexcep
     }
 
     return QVariant();
+}
+
+QList<QVariantMap> PhotosListModel::getAlbum() const
+{
+    QList<QVariantMap> photos = m_photos->items();
+    QList<QVariantMap> albumPhotos;
+    if (m_albumId < 0) {
+        albumPhotos = photos;
+    } else {
+        foreach(const QVariantMap photo, photos) {
+            if (photo["albumId"] == m_albumId) {
+                albumPhotos.append(photo);
+            }
+        }
+    }
+    return albumPhotos;
+}
+
+void PhotosListModel::setAlbum(int albumId)
+{
+    m_albumId = albumId;
+    updateData();
 }
 
 int PhotosListModel::rowCount(const QModelIndex &index) const

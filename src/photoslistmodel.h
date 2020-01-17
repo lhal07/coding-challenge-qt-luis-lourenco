@@ -39,6 +39,8 @@ public:
         roles[ThumbnailUrlRole] = "thumbnailUrl";
         return roles;
     }
+    QList<QVariantMap> getAlbum() const;
+    void setAlbum(int albumId=-1);
 
 public slots:
     void updateData();
@@ -49,6 +51,9 @@ signals:
 private:
     Photos *m_photos;
     QList<QVariantMap> m_photosMap;
+    int m_albumId;
+
+    QList<QVariantMap> getPhotos();
 };
 
 #endif // PHOTOSLISTMODEL_H

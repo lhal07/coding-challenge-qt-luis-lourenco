@@ -3,8 +3,8 @@ import QtQuick.Window 2.12
 
 Window {
     visible: true
-    width: 600
-    height: 600
+    width: 480
+    height: 480
     title: qsTr("Albums")
 
     Rectangle {
