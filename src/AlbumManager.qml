@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.12
 import Albums 1.0
 
 ColumnLayout {
+    property bool showAlbumMenu: true
 
     AlbumsListModel { id: albumsModel }
     PhotosListModel { id: photosModel }
@@ -17,117 +18,52 @@ ColumnLayout {
 
         Text {
             id: headerText
-            text: "Albuns"
-            y: 60
-            x: 30
+            text: showAlbumMenu? "Albuns" : "Album"
             anchors.top: parent.top
             anchors.topMargin: 30
+            anchors.left: parent.left
+            anchors.leftMargin: 30
             font.pointSize: 24
         }
 
-        ListView {
-            id: albumsGrid
+        AlbumSelector {
+            id: albumsList
             anchors.left: parent.left
             anchors.leftMargin: 25
             anchors.top: headerText.bottom
             anchors.topMargin: 25
             anchors.right: parent.right
             anchors.rightMargin: 25
-            width: parent.width
-            orientation: ListView.Horizontal
             height: 200
-            model: albumsModel
-            focus: true
-            highlight: Rectangle { width: 170; height: 200; color: "lightsteelblue"; radius: 5}
-            delegate: albumsDelegate
+            clip: true
+            dataModel: albumsModel
+            visible: showAlbumMenu
         }
 
-        Rectangle {
-            Component {
-                id: albumsDelegate
-
-                Item {
-                    width: 170; height: 200
-
-                    Rectangle {
-                        id: photoImage
-                        anchors.top: parent.top
-                        anchors.topMargin: 10
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        width: 150
-                        height: 150
-                        color: "transparent"
-                        border.color: "black"
-                        border.width: 2
-                        Image {
-                            id: photo
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            anchors.verticalCenter: parent.verticalCenter
-                            //  source: icon
-                        }
-                    }
-
-                    Rectangle {
-                        color: "dimgrey"
-                        width: albumText.paintedWidth + 4
-                        height: albumText.paintedHeight + 4
-                        radius: 5
-                        anchors.top: photoImage.bottom;
-                        anchors.topMargin: 10;
-                        anchors.horizontalCenter: parent.horizontalCenter;
-
-                        Text {
-                            width: 110
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            anchors.verticalCenter: parent.verticalCenter
-                            id: albumText
-                            font.pixelSize: 14
-                            color: "white"
-                            text: title
-                            elide: Text.ElideRight
-                        }
-                    }
-                }
-            }
+        InfoList {
+            id: infoList
+            anchors.left: parent.left
+            anchors.leftMargin: 20
+            anchors.top: albumsList.bottom
+            anchors.topMargin: 25
+            anchors.right: parent.right
+            anchors.rightMargin: 20
+            height: 100
+            clip: true
+            dataModel: infoDataModel
+            visible: showAlbumMenu
         }
 
-        ListView {
-            id: infoGrid
+        PhotoSelection {
+            id: photosGrid
             anchors.left: parent.left
             anchors.leftMargin: 25
-            anchors.top: albumsGrid.bottom
+            anchors.top: headerText.bottom
             anchors.topMargin: 25
             anchors.right: parent.right
             anchors.rightMargin: 25
-            width: parent.width
-            height: 100
-            orientation: ListView.Horizontal
-            model: infoDataModel
-            delegate: infoDelegate
-            focus: false
-        }
-
-        Rectangle {
-            Component {
-                id: infoDelegate
-
-                Item {
-                    width: 125; height: 80
-                    Rectangle {
-                        color: "whitesmoke"
-                        anchors.fill: parent
-                        anchors.margins: 5
-                        radius: 10
-                        width: parent.width; height: parent.height
-
-                        Column {
-                            anchors.fill: parent
-                            Text { id: infoField; text: name; font.pixelSize: 14; color: "dimgrey"; anchors.horizontalCenter: parent.horizontalCenter }
-                            Text { id: infoTotal; text: count; font.pixelSize: 45; color: "dimgrey"; anchors.horizontalCenter: parent.horizontalCenter }
-                        }
-                    }
-                }
-            }
+            dataModel: photosModel
+            visible: !showAlbumMenu
         }
 
     }

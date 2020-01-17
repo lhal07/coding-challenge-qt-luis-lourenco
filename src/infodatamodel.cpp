@@ -26,7 +26,7 @@ void InfoDataModel::updateData()
     commentsMap["name"] = QVariant("Comentários");
     commentsMap["count"] = QVariant(m_comments->count());
     QVariantMap postsMap;
-    postsMap["name"] = QVariant("Fotos");
+    postsMap["name"] = QVariant("Posts");
     postsMap["count"] = QVariant(m_posts->count());
 
     beginResetModel();

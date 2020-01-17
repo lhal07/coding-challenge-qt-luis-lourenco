@@ -1,5 +1,6 @@
 build-SumUpCodingChallenge-Desktop-Debug
 *.user
+*.user.*
 *.o
 .qmake.stash
 Makefile
