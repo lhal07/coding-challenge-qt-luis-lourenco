@@ -18,12 +18,15 @@ ColumnLayout {
 
         Text {
             id: headerText
-            text: showAlbumMenu? "Albuns" : "Album"
+            text: showAlbumMenu? "Albuns" : albumsList.currentItem.itemModel.title
             anchors.top: parent.top
             anchors.topMargin: 30
             anchors.left: parent.left
             anchors.leftMargin: 30
+            anchors.right: parent.right
+            anchors.rightMargin: 30
             font.pointSize: 24
+            elide: Text.ElideRight
         }
 
         AlbumSelector {
