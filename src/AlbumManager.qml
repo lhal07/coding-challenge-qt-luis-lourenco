@@ -66,5 +66,22 @@ ColumnLayout {
             visible: !showAlbumMenu
         }
 
+        Keys.onPressed: {
+            switch(event.key) {
+            case Qt.Key_Return:
+                showAlbumMenu = false;
+                event.accepted = true;
+                var albumId = album.id;
+                photosModel.setAlbumId(albumId);
+                break;
+
+            case Qt.Key_Escape:
+                showAlbumMenu = true;
+                event.accepted = true;
+                break;
+            }
+        }
+
+
     }
 }
