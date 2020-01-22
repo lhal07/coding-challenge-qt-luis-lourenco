@@ -16,8 +16,6 @@
 class InfoDataModel : public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(QQmlListProperty<QAbstractListModel> content READ content)
-    Q_CLASSINFO("DefaultProperty", "content")
 public:
     enum InfoDataRole {
         NameRole  = Qt::UserRole,
@@ -25,8 +23,10 @@ public:
     };
 
     explicit InfoDataModel(QAbstractListModel *parent = nullptr);
+    explicit InfoDataModel(const InfoDataModel&, QAbstractListModel *parent = nullptr);
+    explicit InfoDataModel(Photos *photos, Comments *comments, Posts *posts, Users *users, QList<QVariantMap> infoMap, QAbstractListModel *parent = nullptr);
+    InfoDataModel& operator=(const InfoDataModel&);
     virtual ~InfoDataModel() {}
-    QQmlListProperty<QAbstractListModel> content();
     static void registerTypes(const char *uri);
     Q_INVOKABLE QVariant data(const QModelIndex &index = QModelIndex(), int role = Qt::DisplayRole) const noexcept override;
     Q_INVOKABLE int rowCount(const QModelIndex &index = QModelIndex()) const override;
@@ -50,6 +50,10 @@ private:
     Posts *m_posts;
     Users *m_users;
     QList<QVariantMap> m_infoMap;
+
+    void init();
 };
+
+Q_DECLARE_METATYPE(InfoDataModel);
 
 #endif // INFODATAMODEL_H
