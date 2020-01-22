@@ -1,10 +1,33 @@
 #include "albumslistmodel.h"
 
+class QAbstractListModel;
+
 AlbumsListModel::AlbumsListModel(QAbstractListModel *parent) :
-    QAbstractListModel(parent)
+    QAbstractListModel(parent),
+    m_albums(new Albums),
+    m_photos(new Photos),
+    m_albumsMap(QList<QVariantMap>())
 {
-    m_albums = new(Albums);
-    m_photos = new(Photos);
+    QObject::connect(m_albums, SIGNAL(dataChanged()), this, SLOT(updateData()));
+    QObject::connect(m_photos, SIGNAL(dataChanged()), this, SLOT(updateData()));
+}
+
+AlbumsListModel::AlbumsListModel(const AlbumsListModel& other, QAbstractListModel *parent) :
+    QAbstractListModel(parent),
+    m_albums(other.m_albums),
+    m_photos(other.m_photos),
+    m_albumsMap(other.m_albumsMap)
+{
+    QObject::connect(m_albums, SIGNAL(dataChanged()), this, SLOT(updateData()));
+    QObject::connect(m_photos, SIGNAL(dataChanged()), this, SLOT(updateData()));
+}
+
+AlbumsListModel::AlbumsListModel(Albums *albums, Photos *photos, QList<QVariantMap> albumsMap, QAbstractListModel *parent) :
+    QAbstractListModel(parent),
+    m_albums(albums),
+    m_photos(photos),
+    m_albumsMap(albumsMap)
+{
     QObject::connect(m_albums, SIGNAL(dataChanged()), this, SLOT(updateData()));
     QObject::connect(m_photos, SIGNAL(dataChanged()), this, SLOT(updateData()));
 }
@@ -29,11 +52,6 @@ void AlbumsListModel::updateData()
         m_albumsMap.append(newItem);
     }
     endResetModel();
-}
-
-QQmlListProperty<QAbstractListModel> AlbumsListModel::content()
-{
-    return QQmlListProperty<QAbstractListModel>(this, 0, 0, 0);
 }
 
 void AlbumsListModel::registerTypes(const char *uri)
@@ -66,4 +84,42 @@ int AlbumsListModel::rowCount(const QModelIndex &index) const
 {
     Q_UNUSED(index);
     return m_albumsMap.count();
+}
+
+QVariantMap AlbumsListModel::get(int row)
+{
+    QHash<int,QByteArray> names = roleNames();
+    QHashIterator<int, QByteArray> i(names);
+    QVariantMap res;
+    while (i.hasNext()) {
+        i.next();
+        QModelIndex idx = index(row, 0);
+        QVariant data = idx.data(i.key());
+        res[i.value()] = data;
+        //qDebug() << i.key() << ": " << i.value() << endl;
+    }
+    return res;
+}
+
+uint AlbumsListModel::size() const
+{
+    return m_albumsMap.size();
+}
+
+AlbumsListModel& AlbumsListModel::operator=(const AlbumsListModel& other)
+{
+    if (this != &other) {
+        delete m_albums;
+        m_albums = nullptr;
+        m_albums = other.m_albums;
+        delete m_photos;
+        m_photos = nullptr;
+        m_photos = other.m_photos;
+
+        beginResetModel();
+        m_albumsMap.clear();
+        m_albumsMap = other.m_albumsMap;
+        endResetModel();
+    }
+    return *this;
 }

@@ -13,8 +13,6 @@
 class AlbumsListModel : public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(QQmlListProperty<QAbstractListModel> content READ content)
-    Q_CLASSINFO("DefaultProperty", "content")
 public:
     enum AlbumItemRole {
         UserIdRole  = Qt::UserRole,
@@ -24,8 +22,10 @@ public:
     };
 
     explicit AlbumsListModel(QAbstractListModel *parent = nullptr);
-    virtual ~AlbumsListModel() {};
-    QQmlListProperty<QAbstractListModel> content();
+    explicit AlbumsListModel(const AlbumsListModel&, QAbstractListModel *parent = nullptr);
+    explicit AlbumsListModel(Albums *albums, Photos *photos, QList<QVariantMap> albumsMap, QAbstractListModel *parent = nullptr);
+    virtual ~AlbumsListModel() { QObject::disconnect(); }
+    AlbumsListModel& operator=(const AlbumsListModel&);
     static void registerTypes(const char *uri);
     Q_INVOKABLE QVariant data(const QModelIndex &index = QModelIndex(), int role = Qt::DisplayRole) const noexcept override;
     Q_INVOKABLE int rowCount(const QModelIndex &index = QModelIndex()) const override;
@@ -38,6 +38,8 @@ public:
         roles[ImageRole] = "image";
         return roles;
     }
+    Q_INVOKABLE QVariantMap get(int row);
+    Q_INVOKABLE uint size() const;
 
 public slots:
     void updateData();
@@ -50,5 +52,7 @@ private:
     Photos *m_photos;
     QList<QVariantMap> m_albumsMap;
 };
+
+Q_DECLARE_METATYPE(AlbumsListModel);
 
 #endif // ALBUMSLISTMODEL_H

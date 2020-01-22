@@ -1,13 +1,40 @@
 #include "infodatamodel.h"
 
 InfoDataModel::InfoDataModel(QAbstractListModel *parent) :
-    QAbstractListModel(parent)
+    QAbstractListModel(parent),
+    m_photos(new Photos),
+    m_comments(new Comments),
+    m_posts(new Posts),
+    m_users(new Users),
+    m_infoMap(QList<QVariantMap>())
 {
-    m_photos = new(Photos);
-    m_comments = new(Comments);
-    m_posts = new(Posts);
-    m_users = new(Users);
+    init();
+}
 
+InfoDataModel::InfoDataModel(const InfoDataModel& other, QAbstractListModel *parent) :
+    QAbstractListModel(parent),
+    m_photos(other.m_photos),
+    m_comments(other.m_comments),
+    m_posts(other.m_posts),
+    m_users(other.m_users),
+    m_infoMap(other.m_infoMap)
+{
+    init();
+}
+
+InfoDataModel::InfoDataModel(Photos *photos, Comments *comments, Posts *posts, Users *users, QList<QVariantMap> infoMap, QAbstractListModel *parent) :
+    QAbstractListModel(parent),
+    m_photos(photos),
+    m_comments(comments),
+    m_posts(posts),
+    m_users(users),
+    m_infoMap(infoMap)
+{
+    init();
+}
+
+void InfoDataModel::init()
+{
     QObject::connect(m_users, SIGNAL(dataChanged()), this, SLOT(updateData()));
     QObject::connect(m_photos, SIGNAL(dataChanged()), this, SLOT(updateData()));
     QObject::connect(m_comments, SIGNAL(dataChanged()), this, SLOT(updateData()));
@@ -38,11 +65,6 @@ void InfoDataModel::updateData()
     endResetModel();
 }
 
-QQmlListProperty<QAbstractListModel> InfoDataModel::content()
-{
-    return QQmlListProperty<QAbstractListModel>(this, 0, 0, 0);
-}
-
 void InfoDataModel::registerTypes(const char *uri)
 {
     qmlRegisterType<InfoDataModel>(uri, 1, 0, "InfoDataModel");
@@ -69,4 +91,31 @@ int InfoDataModel::rowCount(const QModelIndex &index) const
 {
     Q_UNUSED(index);
     return m_infoMap.size();
+}
+
+InfoDataModel& InfoDataModel::operator=(const InfoDataModel& other)
+{
+    if (this != &other) {
+        delete m_photos;
+        m_photos = nullptr;
+        m_photos = other.m_photos;
+
+        delete m_comments;
+        m_comments = nullptr;
+        m_comments = other.m_comments;
+
+        delete m_posts;
+        m_posts = nullptr;
+        m_posts = other.m_posts;
+
+        delete m_users;
+        m_users = nullptr;
+        m_users = other.m_users;
+
+        beginResetModel();
+        m_infoMap.clear();
+        m_infoMap = other.m_infoMap;
+        endResetModel();
+    }
+    return *this;
 }
