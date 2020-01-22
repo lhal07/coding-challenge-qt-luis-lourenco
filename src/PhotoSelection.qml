@@ -2,22 +2,20 @@ import QtQuick 2.0
 
 Item {
     property variant dataModel: ({})
+    height: parent.height
 
-    GridView {
+    ListView {
         width: parent.width
-        height: parent.height
-        model: photosModel
-        cellWidth: 170; cellHeight: 200
-        focus: true
-        visible: !showAlbumMenu
-        highlight: Rectangle { width: albumsGrid.cellWidth; height: albumsGrid.cellHeight; color: "lightsteelblue"; radius: 5}
+        model: dataModel
+        highlight: Rectangle { width: photosGrid.cellWidth; height: photosGrid.cellHeight; color: "lightsteelblue"; radius: 5}
         delegate: photosDelegate
     }
+
     Component {
         id: photosDelegate
 
         Item {
-            width: photosGrid.cellWidth; height: photosGrid.cellHeight
+            width: 170; height: 200;
 
             Rectangle {
                 id: photoImage

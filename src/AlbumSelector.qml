@@ -2,13 +2,18 @@ import QtQuick 2.0
 
 Item {
     property variant dataModel: ({})
+    property variant currentItem: albumsListView.currentItem
+    property int currentIndex: albumsListView.currentIndex
+
+    height: 200
 
     ListView {
+        id: albumsListView
+        width: parent.width
         orientation: ListView.Horizontal
         model: dataModel
         highlight: Rectangle { width: 170; height: 200; color: "lightsteelblue"; radius: 5}
         delegate: albumsDelegate
-        width: parent.width
         focus: true
     }
 
@@ -16,7 +21,9 @@ Item {
         id: albumsDelegate
 
         Item {
+            id: albumSelectedItem
             width: 170; height: 200
+            property variant itemModel: model
 
             Rectangle {
                 id: photoImage

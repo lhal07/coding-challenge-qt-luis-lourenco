@@ -28,10 +28,10 @@ ColumnLayout {
 
         AlbumSelector {
             id: albumsList
-            anchors.left: parent.left
-            anchors.leftMargin: 25
             anchors.top: headerText.bottom
             anchors.topMargin: 25
+            anchors.left: parent.left
+            anchors.leftMargin: 25
             anchors.right: parent.right
             anchors.rightMargin: 25
             height: 200
@@ -42,10 +42,10 @@ ColumnLayout {
 
         InfoList {
             id: infoList
-            anchors.left: parent.left
-            anchors.leftMargin: 20
             anchors.top: albumsList.bottom
             anchors.topMargin: 25
+            anchors.left: parent.left
+            anchors.leftMargin: 20
             anchors.right: parent.right
             anchors.rightMargin: 20
             height: 100
@@ -56,15 +56,33 @@ ColumnLayout {
 
         PhotoSelection {
             id: photosGrid
-            anchors.left: parent.left
-            anchors.leftMargin: 25
             anchors.top: headerText.bottom
             anchors.topMargin: 25
+            anchors.left: parent.left
+            anchors.leftMargin: 25
             anchors.right: parent.right
             anchors.rightMargin: 25
+            clip: true
             dataModel: photosModel
             visible: !showAlbumMenu
         }
+
+        Keys.onPressed: {
+            switch(event.key) {
+            case Qt.Key_Return:
+                showAlbumMenu = false;
+                event.accepted = true;
+                var albumId = albumsList.currentItem.itemModel.id;
+                photosModel.setAlbumId(albumId);
+                break;
+
+            case Qt.Key_Escape:
+                showAlbumMenu = true;
+                event.accepted = true;
+                break;
+            }
+        }
+
 
     }
 }

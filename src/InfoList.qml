@@ -2,13 +2,14 @@ import QtQuick 2.0
 
 Item {
     property variant dataModel: ({})
+    height: 100
+    focus: false
 
     ListView {
         width: parent.width
         orientation: ListView.Horizontal
         model: dataModel
         delegate: infoDelegate
-        focus: false
     }
 
     Component {
