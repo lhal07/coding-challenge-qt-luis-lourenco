@@ -71,7 +71,7 @@ ColumnLayout {
             case Qt.Key_Return:
                 showAlbumMenu = false;
                 event.accepted = true;
-                var albumId = album.id;
+                var albumId = albumsList.currentItem.itemModel.id;
                 photosModel.setAlbumId(albumId);
                 break;
 
