@@ -2,20 +2,28 @@ import QtQuick 2.0
 
 Item {
     property variant dataModel: ({})
-    height: parent.height
+    property variant currentItem: photosListView.currentItem || ({})
+    property int currentIndex: photosListView.currentIndex || 0
+    property bool focused: false
 
     ListView {
+        id: photosListView
+        height: parent.height
         width: parent.width
+        orientation: ListView.Horizontal
         model: dataModel
-        highlight: Rectangle { width: photosGrid.cellWidth; height: photosGrid.cellHeight; color: "lightsteelblue"; radius: 5}
+        highlight: Rectangle { width: 170; height: 200; color: "lightsteelblue"; radius: 5}
         delegate: photosDelegate
+        focus: focused
     }
 
     Component {
         id: photosDelegate
 
         Item {
-            width: 170; height: 200;
+            id: photoSelectedItem
+            width: 170; height: 200
+            property variant itemModel: model
 
             Rectangle {
                 id: photoImage
@@ -48,6 +56,7 @@ Item {
                     width: 110
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
+                    horizontalAlignment: Text.AlignHCenter
                     id: albumText
                     font.pixelSize: 14
                     color: "white"
