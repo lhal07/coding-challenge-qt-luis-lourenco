@@ -4,17 +4,17 @@ Item {
     property variant dataModel: ({})
     property variant currentItem: albumsListView.currentItem
     property int currentIndex: albumsListView.currentIndex
-
-    height: 200
+    property bool focused: false
 
     ListView {
         id: albumsListView
+        height: parent.height
         width: parent.width
         orientation: ListView.Horizontal
         model: dataModel
         highlight: Rectangle { width: 170; height: 200; color: "lightsteelblue"; radius: 5}
         delegate: albumsDelegate
-        focus: true
+        focus: focused
     }
 
     Component {

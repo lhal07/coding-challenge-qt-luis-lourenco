@@ -6,8 +6,8 @@ import QtQuick.Layouts 1.2
 
 
 ApplicationWindow {
-    width: 480
-    height: 480
+    width: 600
+    height: 600
     visible: true
     title: qsTr("Albums")
     color: "white";
@@ -16,5 +16,4 @@ ApplicationWindow {
         anchors.fill: parent
         anchors.margins: 10
     }
-
 }

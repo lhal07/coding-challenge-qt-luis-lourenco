@@ -24,7 +24,7 @@ public:
     explicit PhotosListModel(QAbstractListModel *parent = nullptr);
     explicit PhotosListModel(const PhotosListModel&, QAbstractListModel *parent = nullptr);
     explicit PhotosListModel(Photos *photos, QList<QVariantMap> photosMap, QList<QVariantMap> album, int albumId, QAbstractListModel *parent = nullptr);
-    virtual ~PhotosListModel() {};
+    virtual ~PhotosListModel() {}
     PhotosListModel& operator=(const PhotosListModel&);
     Q_PROPERTY(int albumId READ albumId WRITE setAlbumId);
     Q_PROPERTY(QList<QVariantMap> album READ album WRITE setAlbum);

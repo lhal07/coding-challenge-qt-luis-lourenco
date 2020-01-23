@@ -4,6 +4,7 @@ import Albums 1.0
 
 ColumnLayout {
     property bool showAlbumMenu: true
+    property bool showPhotosMenu: false
 
     AlbumsListModel { id: albumsModel }
     PhotosListModel { id: photosModel }
@@ -27,9 +28,10 @@ ColumnLayout {
             anchors.rightMargin: 30
             font.pointSize: 24
             elide: Text.ElideRight
+            visible: showAlbumMenu || showPhotosMenu
         }
 
-        AlbumSelector {
+        AlbumSelection {
             id: albumsList
             anchors.top: headerText.bottom
             anchors.topMargin: 25
@@ -39,22 +41,9 @@ ColumnLayout {
             anchors.rightMargin: 25
             height: 200
             clip: true
+            focused: visible
             dataModel: albumsModel
-            visible: showAlbumMenu
-        }
-
-        InfoList {
-            id: infoList
-            anchors.top: albumsList.bottom
-            anchors.topMargin: 25
-            anchors.left: parent.left
-            anchors.leftMargin: 20
-            anchors.right: parent.right
-            anchors.rightMargin: 20
-            height: 100
-            clip: true
-            dataModel: infoDataModel
-            visible: showAlbumMenu
+            visible: showAlbumMenu && !showPhotosMenu
         }
 
         PhotoSelection {
@@ -65,27 +54,89 @@ ColumnLayout {
             anchors.leftMargin: 25
             anchors.right: parent.right
             anchors.rightMargin: 25
+            height: 200
             clip: true
+            focused: visible
             dataModel: photosModel
-            visible: !showAlbumMenu
+            visible: !showAlbumMenu && showPhotosMenu
+        }
+
+        Rectangle {
+            id: fullscreenPhoto
+            color: "white"
+            border.color: "black"
+            border.width: 2
+            anchors.fill: parent
+            focus: visible
+            visible: !showAlbumMenu && !showPhotosMenu
+            Image {
+                id: photo
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                source: photosGrid.currentItem.itemModel? photosGrid.currentItem.itemModel.url : ""
+            }
+        }
+
+        InfoList {
+            id: infoList
+            anchors.top: albumsList.bottom
+            anchors.topMargin: 25
+            anchors.left: parent.left
+            anchors.leftMargin: 80
+            anchors.right: parent.right
+            anchors.rightMargin: 80
+            height: 100
+            clip: true
+            dataModel: infoDataModel
+            visible: albumsList.visible || photosGrid.visible
+        }
+
+        function checkPhotosModel() {
+            return albumsList.currentItem.itemModel?true:false
+        }
+
+        function updatePhotosModel() {
+            var albumId = albumsList.currentItem.itemModel.id;
+            photosModel.setAlbumId(albumId);
+        }
+
+        function goToPhotoMenu() {
+            showAlbumMenu = false;
+            showPhotosMenu = true;
+        }
+
+        function goToAlbumMenu() {
+            showAlbumMenu = true;
+            showPhotosMenu = false;
+        }
+
+        function showFullscreenPhoto() {
+            showAlbumMenu = false;
+            showPhotosMenu = false;
         }
 
         Keys.onPressed: {
             switch(event.key) {
             case Qt.Key_Return:
-                showAlbumMenu = false;
+                if (showAlbumMenu) {
+                    updatePhotosModel();
+                    goToPhotoMenu();
+                } else if (showPhotosMenu) {
+                    showFullscreenPhoto();
+                }
                 event.accepted = true;
-                var albumId = albumsList.currentItem.itemModel.id;
-                photosModel.setAlbumId(albumId);
                 break;
 
             case Qt.Key_Escape:
-                showAlbumMenu = true;
+                if (showPhotosMenu) {
+                    goToAlbumMenu();
+                } else if (!showAlbumMenu) {
+                    goToPhotoMenu();
+                }
+
                 event.accepted = true;
                 break;
             }
         }
-
-
     }
 }
